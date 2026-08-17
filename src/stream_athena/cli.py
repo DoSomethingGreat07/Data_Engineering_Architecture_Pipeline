@@ -9,7 +9,10 @@ import boto3
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Run a realtime Athena smoke-test query against the isolated streaming Glue database."
+        description=(
+            "Run a realtime Athena smoke-test query against the isolated "
+            "streaming Glue database."
+        )
     )
     parser.add_argument("--database-name", required=True)
     parser.add_argument("--aws-region", required=True)

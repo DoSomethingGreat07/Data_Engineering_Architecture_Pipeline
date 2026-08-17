@@ -6,7 +6,6 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
-
 PARQUET_INPUT_FORMAT = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
 PARQUET_OUTPUT_FORMAT = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 PARQUET_SERDE = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
@@ -26,7 +25,12 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def table_definitions(bucket: str, silver_prefix: str, gold_prefix: str, rejected_prefix: str) -> dict[str, dict[str, object]]:
+def table_definitions(
+    bucket: str,
+    silver_prefix: str,
+    gold_prefix: str,
+    rejected_prefix: str,
+) -> dict[str, dict[str, object]]:
     return {
         "silver_trades": {
             "location": f"s3://{bucket}/{silver_prefix.strip('/')}/trades/",

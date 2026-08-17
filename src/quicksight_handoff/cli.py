@@ -26,15 +26,23 @@ REPORTING_OBJECTS: dict[str, dict[str, dict[str, str]]] = {
     "streaming": {
         "mart_stream_trade_performance": {
             "dashboard_name": "Streaming Trade Performance",
-            "description": "Realtime-style trade notional, count, and pricing trends by symbol and side.",
+            "description": (
+                "Realtime-style trade notional, count, and pricing trends by symbol "
+                "and side."
+            ),
         },
         "mart_stream_customer_exposure": {
             "dashboard_name": "Streaming Customer Exposure",
-            "description": "Customer and account level exposure built from realtime trade events.",
+            "description": (
+                "Customer and account level exposure built from realtime trade events."
+            ),
         },
         "mart_stream_reconciliation": {
             "dashboard_name": "Streaming Reconciliation",
-            "description": "Accepted versus rejected streaming event monitoring and rejection ratio controls.",
+            "description": (
+                "Accepted versus rejected streaming event monitoring and rejection "
+                "ratio controls."
+            ),
         },
     },
 }
@@ -109,7 +117,11 @@ def build_manifest(
     tables: list[dict[str, Any]],
 ) -> dict[str, Any]:
     mart_schema = f"{schema}_marts"
-    dataset_noun = "three reporting datasets" if mode == "batch" else "three streaming reporting datasets"
+    dataset_noun = (
+        "three reporting datasets"
+        if mode == "batch"
+        else "three streaming reporting datasets"
+    )
     return {
         "service": "Amazon QuickSight",
         "connector": "Amazon Athena",
@@ -121,12 +133,27 @@ def build_manifest(
         "quicksight_region": quicksight_region,
         "datasets": tables,
         "quicksight_setup_steps": [
-            "Open Amazon QuickSight and create or access a QuickSight account in the target AWS region.",
-            "In Manage QuickSight -> Security & permissions, enable Amazon Athena and the required S3 buckets.",
-            "If Glue Data Catalog access is needed, enable the AWS Glue Data Catalog connector.",
-            f"Create Athena-backed datasets using catalog '{catalog}' and database '{mart_schema}'.",
+            (
+                "Open Amazon QuickSight and create or access a QuickSight account "
+                "in the target AWS region."
+            ),
+            (
+                "In Manage QuickSight -> Security & permissions, enable Amazon "
+                "Athena and the required S3 buckets."
+            ),
+            (
+                "If Glue Data Catalog access is needed, enable the AWS Glue Data "
+                "Catalog connector."
+            ),
+            (
+                f"Create Athena-backed datasets using catalog '{catalog}' and "
+                f"database '{mart_schema}'."
+            ),
             f"Use workgroup '{workgroup}' and the configured Athena query result location.",
-            f"Build analyses and publish dashboards from the {dataset_noun} listed in this manifest.",
+            (
+                f"Build analyses and publish dashboards from the {dataset_noun} "
+                "listed in this manifest."
+            ),
         ],
     }
 

@@ -84,7 +84,11 @@ class KinesisStreamConsumerService:
         canonical_events_path.write_text(canonical_text, encoding="utf-8")
         bronze_events_path.write_text(canonical_text, encoding="utf-8")
 
-        parsed_records = sum(1 for record in records if record.payload is not None and not record.parse_failed)
+        parsed_records = sum(
+            1
+            for record in records
+            if record.payload is not None and not record.parse_failed
+        )
         parse_failures = sum(1 for record in records if record.parse_failed)
         return ConsumedBatchResult(
             paths=ConsumedBatchPaths(
@@ -101,7 +105,13 @@ class KinesisStreamConsumerService:
         shard_ids = self._list_shards(request.stream_name)
         records: list[ConsumedRecord] = []
         for shard_id in shard_ids:
-            records.extend(self._consume_shard(shard_id, request, remaining=request.max_records - len(records)))
+            records.extend(
+                self._consume_shard(
+                    shard_id,
+                    request,
+                    remaining=request.max_records - len(records),
+                )
+            )
             if len(records) >= request.max_records:
                 break
         return records[: request.max_records]
@@ -132,7 +142,10 @@ class KinesisStreamConsumerService:
         empty_polls = 0
         collected: list[ConsumedRecord] = []
         while iterator and len(collected) < remaining and empty_polls < request.max_empty_polls:
-            response = self._client.get_records(ShardIterator=iterator, Limit=min(remaining - len(collected), 1000))
+            response = self._client.get_records(
+                ShardIterator=iterator,
+                Limit=min(remaining - len(collected), 1000),
+            )
             iterator = response.get("NextShardIterator")
             raw_records = response.get("Records", [])
             if not raw_records:
@@ -175,4 +188,3 @@ class KinesisStreamConsumerService:
         if not isinstance(payload, dict):
             return None, True
         return payload, False
-

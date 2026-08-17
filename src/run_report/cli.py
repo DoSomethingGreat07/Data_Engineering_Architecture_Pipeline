@@ -124,23 +124,38 @@ def _transformation_notes() -> list[dict[str, str]]:
     return [
         {
             "stage": "raw_to_bronze",
-            "summary": "Canonical Plaid JSON files are staged into batch raw folders for downstream Spark processing.",
+            "summary": (
+                "Canonical Plaid JSON files are staged into batch raw folders for "
+                "downstream Spark processing."
+            ),
         },
         {
             "stage": "bronze_to_silver",
-            "summary": "Spark standardizes types, deduplicates records, and rejects invalid transactional rows into rejected Delta tables.",
+            "summary": (
+                "Spark standardizes types, deduplicates records, and rejects "
+                "invalid transactional rows into rejected Delta tables."
+            ),
         },
         {
             "stage": "silver_to_gold",
-            "summary": "Spark builds curated dimensions and facts such as dim_customer, dim_account, fact_transaction, and fact_daily_account_balance.",
+            "summary": (
+                "Spark builds curated dimensions and facts such as dim_customer, "
+                "dim_account, fact_transaction, and fact_daily_account_balance."
+            ),
         },
         {
             "stage": "gold_to_marts",
-            "summary": "dbt creates Athena reporting marts for financial performance, customer risk, and regulatory reconciliation.",
+            "summary": (
+                "dbt creates Athena reporting marts for financial performance, "
+                "customer risk, and regulatory reconciliation."
+            ),
         },
         {
             "stage": "marts_to_quicksight",
-            "summary": "QuickSight handoff assets describe the Athena connection and the reporting marts to visualize.",
+            "summary": (
+                "QuickSight handoff assets describe the Athena connection and the "
+                "reporting marts to visualize."
+            ),
         },
     ]
 
