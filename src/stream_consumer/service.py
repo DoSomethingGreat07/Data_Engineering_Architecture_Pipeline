@@ -25,12 +25,6 @@ class KinesisClientProtocol(Protocol):
         ...
 
 
-class KinesisShardProtocol(Protocol):
-    @property
-    def ShardId(self) -> str:
-        ...
-
-
 @dataclass(frozen=True)
 class ConsumeRequest:
     stream_name: str
