@@ -1,0 +1,59 @@
+name: dbt_financial
+version: 1.0.0
+config-version: 2
+
+profile: dbt_financial
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+analysis-paths: ["analysis"]
+target-path: target
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+  dbt_financial:
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +schema: staging
+      +materialized: view
+      +tags: ["staging"]
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+      +tags: ["intermediate"]
+    marts:
+      +schema: marts
+      +tags: ["mart"]
+      dimensions:
+        +materialized: table
+      facts:
+        +materialized: table
+      reporting:
+        +materialized: view
+    streaming:
+      +schema: streaming
+      +tags: ["streaming"]
+      staging:
+        +materialized: view
+        +tags: ["streaming", "staging"]
+      marts:
+        +tags: ["streaming", "mart"]
+        facts:
+          +materialized: table
+        reporting:
+          +materialized: view
+
+snapshots:
+  dbt_financial:
+    +target_schema: fdp_dev_batch_analytics_intermediate
+
+seeds:
+  dbt_financial:
+    +schema: staging

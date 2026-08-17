@@ -1,0 +1,180 @@
+{
+  "expectations": [
+    {
+      "id": "e7908591-407e-42fc-b90b-ebdcfb269fae",
+      "kwargs": {
+        "column_set": [
+          "event_id",
+          "event_type",
+          "partition_key",
+          "event_timestamp",
+          "processing_timestamp",
+          "currency_code",
+          "transaction_status",
+          "transaction_amount",
+          "risk_score"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "d5542aea-3cd2-4560-b94d-0498755d87cb",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.99
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "eef4c72d-9d61-45d3-82f4-bdf116fa7eea",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.94
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "81fb6056-9358-48ac-a18e-a6934b9bb0af",
+      "kwargs": {
+        "column": "event_type",
+        "value_set": [
+          "transaction",
+          "payment",
+          "trade"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "d69722c9-993b-4478-9717-6131d135dab4",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": [
+          "USD",
+          "EUR",
+          "GBP",
+          "JPY",
+          "CAD",
+          "AUD"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "b68d8fd2-bf1b-46e3-a1f5-ef0027aa7504",
+      "kwargs": {
+        "column": "transaction_amount",
+        "max_value": 10000000.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "f0c720ed-3146-4258-915b-75e864a2d77d",
+      "kwargs": {
+        "column": "risk_score",
+        "max_value": 100.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "f3a7315b-8b80-4e8c-bdf5-3a5c04720b1b",
+      "kwargs": {
+        "column_set": [
+          "event_id",
+          "event_type",
+          "partition_key",
+          "event_timestamp",
+          "processing_timestamp",
+          "currency_code",
+          "transaction_status",
+          "transaction_amount",
+          "risk_score"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "d7489e06-3b5c-4b19-bddd-8cea1e60e409",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.99
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "a710987c-383d-406d-a82c-9ba3634065e6",
+      "kwargs": {
+        "column_set": [
+          "event_id",
+          "event_type",
+          "partition_key",
+          "event_timestamp",
+          "processing_timestamp",
+          "currency_code",
+          "transaction_status",
+          "transaction_amount",
+          "risk_score"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "7ca20202-e4cf-4e12-a83a-10e5469965b3",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.94
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "77fdf5fe-d54a-4e17-b9d7-cb14de3e01b8",
+      "kwargs": {
+        "column": "event_type",
+        "value_set": [
+          "transaction",
+          "payment",
+          "trade"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    }
+  ],
+  "id": "fdcb6fd1-92df-410d-94f4-29dd11fad034",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "streaming_events_microbatch",
+  "notes": null
+}cb6fd1-92df-410d-94f4-29dd11fad034",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "streaming_events_microbatch",
+  "notes": null
+}

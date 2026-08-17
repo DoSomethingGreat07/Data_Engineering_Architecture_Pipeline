@@ -1,0 +1,41 @@
+provider_name: sec_edgar_bulk
+version: 1
+source_modes:
+  - batch
+notes:
+  - SEC EDGAR is suitable for regulatory and reconciliation enrichment, not retail banking transactions.
+  - It should be used as a supplemental batch source rather than a replacement for transaction APIs.
+mappings:
+  - canonical_entity: customers
+    source_object: sec.companyfacts
+    target_mode: batch
+    fields:
+      - source_field: cik
+        target_field: customer_id
+        transform: prefix_with_sec_cik
+        required: true
+      - source_field: entityName
+        target_field: full_name
+        transform: direct
+        required: true
+      - source_field: investorRelationsEmail
+        target_field: email
+        transform: fallback_placeholder_for_public_entity
+        required: true
+      - source_field: country
+        target_field: country_code
+        transform: normalize_country_code
+        required: true
+      - source_field: risk_model.public_filer_score
+        target_field: risk_score
+        transform: derive_public_entity_risk_score
+        required: true
+      - source_field: created_at
+        target_field: created_at
+        transform: derive_from_first_filing_date
+        required: true
+metadata:
+  source_system: sec
+  schema_version: 1
+  mapping_version: 1
+

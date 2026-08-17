@@ -1,0 +1,24 @@
+project_name         = "financial-data-platform"
+environment          = "prod"
+owner                = "platform-team"
+cost_center          = "approved-prod"
+aws_region           = "us-east-1"
+aws_profile          = "production"
+data_lake_bucket_name = "fdp-prod-data-lake-change-me"
+kms_alias_name       = "fdp-prod-data"
+kinesis_stream_name  = "fdp-prod-events"
+glue_database_name   = "fdp_prod_lakehouse"
+vpc_cidr             = "10.40.0.0/16"
+availability_zones   = ["us-east-1a", "us-east-1b"]
+private_subnet_cidrs = ["10.40.1.0/24", "10.40.2.0/24"]
+enable_kinesis_interface_endpoint = true
+runtime_service_principals = ["ec2.amazonaws.com"]
+runtime_role_arns          = []
+github_oidc_provider_arn   = null
+github_repositories        = []
+alarm_actions              = []
+custom_metric_filters      = []
+
+additional_tags = {
+  Portfolio = "financial-data-platform"
+}

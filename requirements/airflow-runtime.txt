@@ -1,0 +1,8 @@
+great-expectations>=1.19,<2.0
+pandas>=2.2,<3.0
+pydantic>=2.9,<3.0
+PyYAML>=6.0,<7.0
+requests>=2.32,<3.0
+websockets>=13.1,<16.0
+pyspark>=3.5,<4.0
+delta-spark>=3.2,<3.3

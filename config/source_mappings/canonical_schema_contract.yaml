@@ -1,0 +1,183 @@
+version: 1
+canonical_entities:
+  customers:
+    description: Canonical customer reference entity used across batch and warehouse layers.
+    required_fields:
+      - customer_id
+      - full_name
+      - email
+      - country_code
+      - risk_score
+      - created_at
+    fields:
+      customer_id:
+        type: string
+        required: true
+        derivation_allowed: false
+      full_name:
+        type: string
+        required: true
+        derivation_allowed: false
+      email:
+        type: string
+        required: true
+        derivation_allowed: false
+      country_code:
+        type: string
+        required: true
+        derivation_allowed: true
+      risk_score:
+        type: integer
+        required: true
+        derivation_allowed: true
+      created_at:
+        type: datetime
+        required: true
+        derivation_allowed: true
+  accounts:
+    required_fields:
+      - account_id
+      - customer_id
+      - account_type
+      - currency_code
+      - current_balance
+      - opened_at
+      - status
+    fields:
+      account_id: {type: string, required: true, derivation_allowed: false}
+      customer_id: {type: string, required: true, derivation_allowed: false}
+      account_type: {type: string, required: true, derivation_allowed: true}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+      current_balance: {type: decimal, required: true, derivation_allowed: true}
+      opened_at: {type: datetime, required: true, derivation_allowed: true}
+      status: {type: string, required: true, derivation_allowed: true}
+  transactions:
+    required_fields:
+      - transaction_id
+      - account_id
+      - customer_id
+      - transaction_type
+      - transaction_amount
+      - currency_code
+      - transaction_status
+      - event_timestamp
+      - processing_timestamp
+      - merchant_category
+      - country_code
+      - risk_score
+    fields:
+      transaction_id: {type: string, required: true, derivation_allowed: false}
+      account_id: {type: string, required: true, derivation_allowed: false}
+      customer_id: {type: string, required: true, derivation_allowed: false}
+      transaction_type: {type: string, required: true, derivation_allowed: true}
+      transaction_amount: {type: decimal, required: true, derivation_allowed: false}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+      transaction_status: {type: string, required: true, derivation_allowed: true}
+      event_timestamp: {type: datetime, required: true, derivation_allowed: false}
+      processing_timestamp: {type: datetime, required: true, derivation_allowed: true}
+      merchant_category: {type: string, required: true, derivation_allowed: true}
+      country_code: {type: string, required: true, derivation_allowed: true}
+      risk_score: {type: integer, required: true, derivation_allowed: true}
+  payments:
+    required_fields:
+      - payment_id
+      - account_id
+      - customer_id
+      - transaction_amount
+      - currency_code
+      - transaction_status
+      - event_timestamp
+      - processing_timestamp
+      - counterparty_account_id
+      - country_code
+      - risk_score
+    fields:
+      payment_id: {type: string, required: true, derivation_allowed: false}
+      account_id: {type: string, required: true, derivation_allowed: false}
+      customer_id: {type: string, required: true, derivation_allowed: false}
+      transaction_amount: {type: decimal, required: true, derivation_allowed: false}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+      transaction_status: {type: string, required: true, derivation_allowed: true}
+      event_timestamp: {type: datetime, required: true, derivation_allowed: false}
+      processing_timestamp: {type: datetime, required: true, derivation_allowed: true}
+      counterparty_account_id: {type: string, required: true, derivation_allowed: true}
+      country_code: {type: string, required: true, derivation_allowed: true}
+      risk_score: {type: integer, required: true, derivation_allowed: true}
+  securities:
+    required_fields:
+      - security_id
+      - ticker
+      - security_name
+      - security_type
+      - exchange_code
+      - currency_code
+    fields:
+      security_id: {type: string, required: true, derivation_allowed: false}
+      ticker: {type: string, required: true, derivation_allowed: false}
+      security_name: {type: string, required: true, derivation_allowed: true}
+      security_type: {type: string, required: true, derivation_allowed: true}
+      exchange_code: {type: string, required: true, derivation_allowed: true}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+  trades:
+    required_fields:
+      - trade_id
+      - account_id
+      - customer_id
+      - security_id
+      - quantity
+      - price
+      - transaction_amount
+      - currency_code
+      - side
+      - transaction_status
+      - event_timestamp
+      - processing_timestamp
+      - country_code
+      - risk_score
+    fields:
+      trade_id: {type: string, required: true, derivation_allowed: false}
+      account_id: {type: string, required: true, derivation_allowed: false}
+      customer_id: {type: string, required: true, derivation_allowed: false}
+      security_id: {type: string, required: true, derivation_allowed: false}
+      quantity: {type: decimal, required: true, derivation_allowed: false}
+      price: {type: decimal, required: true, derivation_allowed: false}
+      transaction_amount: {type: decimal, required: true, derivation_allowed: true}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+      side: {type: string, required: true, derivation_allowed: true}
+      transaction_status: {type: string, required: true, derivation_allowed: true}
+      event_timestamp: {type: datetime, required: true, derivation_allowed: false}
+      processing_timestamp: {type: datetime, required: true, derivation_allowed: true}
+      country_code: {type: string, required: true, derivation_allowed: true}
+      risk_score: {type: integer, required: true, derivation_allowed: true}
+  daily_account_balances:
+    required_fields:
+      - balance_id
+      - account_id
+      - customer_id
+      - balance_date
+      - opening_balance
+      - closing_balance
+      - currency_code
+    fields:
+      balance_id: {type: string, required: true, derivation_allowed: false}
+      account_id: {type: string, required: true, derivation_allowed: false}
+      customer_id: {type: string, required: true, derivation_allowed: false}
+      balance_date: {type: datetime, required: true, derivation_allowed: false}
+      opening_balance: {type: decimal, required: true, derivation_allowed: true}
+      closing_balance: {type: decimal, required: true, derivation_allowed: false}
+      currency_code: {type: string, required: true, derivation_allowed: true}
+
+metadata_requirements:
+  required_fields:
+    - source_system
+    - source_mode
+    - source_endpoint_or_file
+    - source_record_id
+    - ingestion_timestamp
+    - processing_timestamp
+    - ingestion_id
+    - raw_payload_checksum
+    - raw_payload_location
+    - schema_version
+    - mapping_version
+

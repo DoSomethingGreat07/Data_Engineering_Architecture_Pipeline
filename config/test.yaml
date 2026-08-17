@@ -1,0 +1,29 @@
+app:
+  env: test
+  log_level: DEBUG
+
+generation:
+  seed: 4242
+  customers: 5
+  accounts_per_customer:
+    min: 1
+    max: 2
+  transactions: 20
+  payments: 10
+  trades: 8
+  securities: 4
+  daily_balances_days: 3
+  stream_events: 15
+  late_event_ratio: 0.1
+  duplicate_ratio: 0.1
+  invalid_ratio: 0.2
+  malformed_count: 2
+  base_currency: USD
+  output_formats:
+    batch: ["csv", "json"]
+    streaming: ["jsonl"]
+
+paths:
+  batch_dir: data/generated-test/batch
+  streaming_dir: data/generated-test/streaming
+

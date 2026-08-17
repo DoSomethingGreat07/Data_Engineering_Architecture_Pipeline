@@ -1,0 +1,106 @@
+{
+  "expectations": [
+    {
+      "id": "19fdc738-70db-4652-b1b6-941abaa7ed2e",
+      "kwargs": {
+        "column_set": [
+          "trade_id",
+          "account_id",
+          "customer_id",
+          "security_id",
+          "quantity",
+          "price",
+          "transaction_amount",
+          "currency_code",
+          "side",
+          "transaction_status",
+          "event_timestamp",
+          "processing_timestamp",
+          "country_code",
+          "risk_score"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "88388b8d-60da-4330-820e-7320be1f5a80",
+      "kwargs": {
+        "column": "trade_id",
+        "mostly": 0.98
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "8964d55b-84a5-4f49-bcf1-c7eba40aa327",
+      "kwargs": {
+        "column": "trade_id",
+        "mostly": 0.94
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "bc9b156f-5983-4a42-89e6-9250f44b42f7",
+      "kwargs": {
+        "column": "side",
+        "value_set": [
+          "BUY",
+          "SELL"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "f418aa2a-256d-4473-83a4-3d6dad47faed",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": [
+          "USD",
+          "EUR",
+          "GBP",
+          "JPY",
+          "CAD",
+          "AUD"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "37b7a7ed-a95a-4366-99e7-e0e26492864f",
+      "kwargs": {
+        "column": "transaction_amount",
+        "max_value": 10000000.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "3611edc3-9a11-457e-bdc5-a72414f5db5b",
+      "kwargs": {
+        "column": "risk_score",
+        "max_value": 100.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "85699316-01a1-4688-b3f0-a11573b0f381",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "trades_bronze",
+  "notes": null
+}

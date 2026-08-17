@@ -1,0 +1,123 @@
+{
+  "expectations": [
+    {
+      "id": "c914ddf5-9168-4c8c-b6fb-eb70faeabe4e",
+      "kwargs": {
+        "column_set": [
+          "transaction_id",
+          "account_id",
+          "customer_id",
+          "transaction_type",
+          "transaction_amount",
+          "currency_code",
+          "transaction_status",
+          "event_timestamp",
+          "processing_timestamp",
+          "merchant_category",
+          "country_code",
+          "risk_score"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "12ea5ba9-0fde-490b-981e-21756a53990f",
+      "kwargs": {
+        "column": "transaction_id",
+        "mostly": 0.98
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "28f8cf31-0428-4cad-a7db-38f87772cdc6",
+      "kwargs": {
+        "column": "transaction_id",
+        "mostly": 0.94
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "921847a7-74d2-4199-97e1-ebca854e60de",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": [
+          "USD",
+          "EUR",
+          "GBP",
+          "JPY",
+          "CAD",
+          "AUD"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "8c9351f9-58d5-4a2b-a351-a168d11e9b20",
+      "kwargs": {
+        "column": "transaction_status",
+        "value_set": [
+          "PENDING",
+          "POSTED",
+          "FAILED",
+          "REVERSED"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "ea199ec9-f2e2-47c7-ba32-d9205e5428f4",
+      "kwargs": {
+        "column": "transaction_type",
+        "value_set": [
+          "DEBIT",
+          "CREDIT",
+          "FEE",
+          "REFUND",
+          "WIRE",
+          "ACH"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "b95f7215-6884-4e1e-b5ef-19150ebe1541",
+      "kwargs": {
+        "column": "transaction_amount",
+        "max_value": 1000000.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "c5e203e2-c89d-4044-be1c-10cebb6831e2",
+      "kwargs": {
+        "column": "risk_score",
+        "max_value": 100.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "d2229901-197f-470b-840b-9ad62dfa2616",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "transactions_bronze",
+  "notes": null
+}

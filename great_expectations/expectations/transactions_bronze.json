@@ -1,0 +1,76 @@
+{
+  "suite_name": "transactions_bronze",
+  "expectations": [
+    {
+      "expectation_type": "ExpectTableColumnsToMatchSet",
+      "kwargs": {
+        "column_set": [
+          "transaction_id",
+          "account_id",
+          "customer_id",
+          "transaction_type",
+          "transaction_amount",
+          "currency_code",
+          "transaction_status",
+          "event_timestamp",
+          "processing_timestamp",
+          "merchant_category",
+          "country_code",
+          "risk_score"
+        ]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToNotBeNull",
+      "kwargs": {
+        "column": "transaction_id",
+        "mostly": 0.98
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeUnique",
+      "kwargs": {
+        "column": "transaction_id",
+        "mostly": 0.94
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "transaction_status",
+        "value_set": ["PENDING", "POSTED", "FAILED", "REVERSED"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "transaction_type",
+        "value_set": ["DEBIT", "CREDIT", "FEE", "REFUND", "WIRE", "ACH"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "transaction_amount",
+        "min_value": 0,
+        "max_value": 1000000
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "risk_score",
+        "min_value": 0,
+        "max_value": 100
+      }
+    }
+  ]
+}
+

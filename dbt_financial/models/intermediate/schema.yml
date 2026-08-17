@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: int_transaction_enrichment
+    columns:
+      - name: transaction_id
+        tests: [not_null, unique]
+      - name: risk_band
+        tests:
+          - accepted_values:
+              values: ['LOW', 'MEDIUM', 'HIGH']
+  - name: int_account_daily_balance
+    columns:
+      - name: balance_id
+        tests: [not_null, unique]

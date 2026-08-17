@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "e75b86e2-89e0-4dc3-941c-ada34cf4d37e",
+      "name": "transactions_bronze_post_extract_asset"
+    },
+    "batch_definition": {
+      "id": "53af92c1-66f0-4618-a730-a7106653237d",
+      "name": "transactions_bronze_post_extract_batch"
+    },
+    "datasource": {
+      "id": "47135fa1-be29-4324-9140-1a0ff2d95e67",
+      "name": "financial_batch_datasource"
+    }
+  },
+  "id": "b5b4166c-1f0e-43de-9a44-0d83b5cbd81d",
+  "name": "transactions_bronze_bronze_post_extract",
+  "suite": {
+    "id": "d2229901-197f-470b-840b-9ad62dfa2616",
+    "name": "transactions_bronze"
+  }
+}

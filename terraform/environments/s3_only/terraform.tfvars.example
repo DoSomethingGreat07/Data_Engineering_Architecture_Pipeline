@@ -1,0 +1,12 @@
+project_name          = "financial-data-platform"
+environment           = "dev"
+owner                 = "platform-team"
+cost_center           = "learning-lab"
+aws_region            = "us-east-1"
+aws_profile           = "default"
+data_lake_bucket_name = "fdp-batch-only-change-me"
+glue_database_name    = "fdp_dev_batch_lakehouse"
+
+additional_tags = {
+  Portfolio = "financial-data-platform"
+}

@@ -1,0 +1,65 @@
+{
+  "expectations": [
+    {
+      "id": "eb3398c1-049a-4f38-84d4-50c76fd7e69a",
+      "kwargs": {
+        "column_set": [
+          "customer_id",
+          "full_name",
+          "email",
+          "country_code",
+          "risk_score",
+          "created_at"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "ed82f1f8-c835-4ac4-8747-d3a034ad3bd0",
+      "kwargs": {
+        "column": "customer_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "ae182c50-2fc4-487c-aa3c-c35844267c47",
+      "kwargs": {
+        "column": "customer_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "48bb7cd4-3ed2-441d-88cb-cfeca2eb180c",
+      "kwargs": {
+        "column": "email",
+        "regex": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_match_regex"
+    },
+    {
+      "id": "8e44c170-d3c5-4e36-b61b-a8307d211740",
+      "kwargs": {
+        "column": "risk_score",
+        "max_value": 100.0,
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "cff6faa4-8378-4703-a0a1-4d4d1bcae10f",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "customers_bronze",
+  "notes": null
+}

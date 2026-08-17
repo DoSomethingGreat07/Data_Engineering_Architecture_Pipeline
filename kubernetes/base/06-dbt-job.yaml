@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbt-compile
+  namespace: financial-data-platform
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: dbt
+          image: financial-data-platform-dbt:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: fdp-config
+          command:
+            - bash
+            - -lc
+            - dbt deps --project-dir /workspace/dbt_financial --profiles-dir /workspace/dbt_financial && dbt compile --project-dir /workspace/dbt_financial --profiles-dir /workspace/dbt_financial
+

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-dev
+  namespace: financial-data-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-dev
+  template:
+    metadata:
+      labels:
+        app: platform-dev
+    spec:
+      containers:
+        - name: platform-dev
+          image: financial-data-platform-dev:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: fdp-config
+          command:
+            - bash
+            - -lc
+            - sleep infinity
+

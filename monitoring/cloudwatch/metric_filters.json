@@ -1,0 +1,35 @@
+{
+  "log_group_patterns": [
+    {
+      "log_group_name": "/financial-data-platform/${environment}/batch-producer",
+      "metric_namespace": "FinancialDataPlatform",
+      "metric_name": "BatchIngestionFailures",
+      "filter_pattern": "\"failed to upload\" || \"batch ingestion failed\""
+    },
+    {
+      "log_group_name": "/financial-data-platform/${environment}/stream-producer",
+      "metric_namespace": "FinancialDataPlatform",
+      "metric_name": "KinesisWriteFailures",
+      "filter_pattern": "\"failed to send event to Kinesis\""
+    },
+    {
+      "log_group_name": "/financial-data-platform/${environment}/great-expectations",
+      "metric_namespace": "FinancialDataPlatform",
+      "metric_name": "GreatExpectationsFailures",
+      "filter_pattern": "\"success\": false"
+    },
+    {
+      "log_group_name": "/financial-data-platform/${environment}/airflow",
+      "metric_namespace": "FinancialDataPlatform",
+      "metric_name": "AirflowDagFailures",
+      "filter_pattern": "\"Task failed\" || \"DAG failed\""
+    },
+    {
+      "log_group_name": "/financial-data-platform/${environment}/databricks-streaming",
+      "metric_namespace": "FinancialDataPlatform",
+      "metric_name": "StreamingLagWarnings",
+      "filter_pattern": "\"iterator age\" || \"lag\" || \"late arrival\""
+    }
+  ]
+}
+

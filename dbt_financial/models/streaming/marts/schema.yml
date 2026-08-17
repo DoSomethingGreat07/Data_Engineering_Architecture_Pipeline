@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_stream_trades
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: trade_id
+        tests: [not_null]
+      - name: transaction_amount
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+  - name: mart_stream_trade_performance
+    columns:
+      - name: total_notional_amount
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: trade_count
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 1
+  - name: mart_stream_customer_exposure
+    columns:
+      - name: gross_notional_amount
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+  - name: mart_stream_reconciliation
+    columns:
+      - name: rejection_ratio
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+
+exposures:
+  - name: quicksight_stream_trade_performance
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Data Platform Team
+      email: data-platform@example.com
+    depends_on:
+      - ref('mart_stream_trade_performance')
+  - name: quicksight_stream_customer_exposure
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Data Platform Team
+      email: data-platform@example.com
+    depends_on:
+      - ref('mart_stream_customer_exposure')

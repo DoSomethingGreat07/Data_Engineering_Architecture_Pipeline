@@ -1,0 +1,34 @@
+{
+  "name": "financial-data-platform-batch",
+  "job_clusters": [
+    {
+      "job_cluster_key": "batch-job-cluster",
+      "new_cluster": {
+        "spark_version": "15.4.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 2,
+        "autotermination_minutes": 15
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "task_key": "financial-batch-pipeline",
+      "job_cluster_key": "batch-job-cluster",
+      "spark_python_task": {
+        "python_file": "dbfs:/Workspace/Repos/financial-data-platform/databricks/batch/financial_batch_pipeline.py",
+        "parameters": [
+          "--bronze-root",
+          "s3://<bucket>/batch/raw",
+          "--silver-root",
+          "s3://<bucket>/batch/silver",
+          "--gold-root",
+          "s3://<bucket>/batch/gold",
+          "--rejected-root",
+          "s3://<bucket>/batch/rejected"
+        ]
+      }
+    }
+  ]
+}
+

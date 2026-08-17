@@ -1,0 +1,185 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+jobs:
+  python-quality:
+    name: Python Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/development.txt
+
+      - name: Lint
+        run: make lint
+
+      - name: Type check
+        run: make type-check
+
+      - name: Unit tests
+        run: make test
+
+      - name: Generate synthetic data
+        run: make generate-data
+
+  pyspark-and-gx:
+    name: PySpark and GX Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/development.txt
+
+      - name: Bootstrap Great Expectations context
+        run: .venv/bin/python great_expectations/scripts/bootstrap_context.py
+
+      - name: Validate GX batch suite
+        run: |
+          make generate-data
+          .venv/bin/python great_expectations/scripts/run_batch_validation.py \
+            --suite-name transactions_bronze \
+            --dataset-name transactions \
+            --stage bronze_post_ingest \
+            --input-file data/generated/batch/ingest_ready/transactions_20260815T120000Z.json
+
+      - name: Validate GX streaming suite
+        run: |
+          .venv/bin/python great_expectations/scripts/run_stream_validation.py \
+            --input-file data/generated/streaming/events.jsonl
+
+  airflow-dag-import:
+    name: Airflow DAG Import
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/development.txt
+
+      - name: Run Airflow structure tests
+        run: .venv/bin/pytest airflow/tests tests/unit/test_airflow_specs.py
+
+  dbt-parse:
+    name: dbt Parse and Compile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-core dbt-snowflake
+
+      - name: Copy dbt example profile
+        run: |
+          cp dbt_financial/profiles.yml.example dbt_financial/profiles.yml
+
+      - name: dbt parse
+        run: dbt parse --project-dir dbt_financial --profiles-dir dbt_financial
+
+      - name: dbt compile if Snowflake credentials are available
+        if: ${{ env.SNOWFLAKE_ACCOUNT != '' && env.SNOWFLAKE_USER != '' && env.SNOWFLAKE_PASSWORD != '' }}
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+        run: dbt compile --project-dir dbt_financial --profiles-dir dbt_financial
+
+  terraform-validation:
+    name: Terraform Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform fmt
+        run: terraform -chdir=terraform/environments/dev fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform -chdir=terraform/environments/dev init -backend=false
+
+      - name: Terraform validate
+        run: terraform -chdir=terraform/environments/dev validate
+
+  security-scans:
+    name: Security and Secret Scans
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: fs
+          format: table
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+

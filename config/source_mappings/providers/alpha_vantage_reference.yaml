@@ -1,0 +1,41 @@
+provider_name: alpha_vantage_reference
+version: 1
+source_modes:
+  - batch
+  - reference
+notes:
+  - Alpha Vantage LISTING_STATUS is used as the nightly batch reference feed for US-traded securities.
+  - Currency is derived to USD because the listing status utility does not supply a currency column.
+mappings:
+  - canonical_entity: securities
+    source_object: alpha_vantage.listing_status
+    target_mode: batch
+    fields:
+      - source_field: symbol
+        target_field: security_id
+        transform: prefix_with_alpha_vantage_security
+        required: true
+      - source_field: symbol
+        target_field: ticker
+        transform: direct
+        required: true
+      - source_field: name
+        target_field: security_name
+        transform: direct
+        required: true
+      - source_field: assetType
+        target_field: security_type
+        transform: normalize_asset_type
+        required: true
+      - source_field: exchange
+        target_field: exchange_code
+        transform: direct
+        required: true
+      - source_field: assetType
+        target_field: currency_code
+        transform: derive_usd_for_us_listing
+        required: true
+metadata:
+  source_system: alpha_vantage
+  schema_version: 1
+  mapping_version: 1

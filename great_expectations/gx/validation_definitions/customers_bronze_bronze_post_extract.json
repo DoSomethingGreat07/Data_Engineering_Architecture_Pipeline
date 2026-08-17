@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "2bb6a39c-67c3-4306-a8b5-6d44c8d535e2",
+      "name": "customers_bronze_post_extract_asset"
+    },
+    "batch_definition": {
+      "id": "7c30752b-574a-45a6-ac3f-cddd0d15a58d",
+      "name": "customers_bronze_post_extract_batch"
+    },
+    "datasource": {
+      "id": "47135fa1-be29-4324-9140-1a0ff2d95e67",
+      "name": "financial_batch_datasource"
+    }
+  },
+  "id": "86e697c3-b4bd-4636-a41e-bf2796302b3c",
+  "name": "customers_bronze_bronze_post_extract",
+  "suite": {
+    "id": "cff6faa4-8378-4703-a0a1-4d4d1bcae10f",
+    "name": "customers_bronze"
+  }
+}

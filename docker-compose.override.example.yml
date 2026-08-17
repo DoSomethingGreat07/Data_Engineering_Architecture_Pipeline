@@ -1,0 +1,7 @@
+services:
+  platform-dev:
+    environment:
+      APP_ENV: development
+    volumes:
+      - ./:/workspace
+

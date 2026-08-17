@@ -1,0 +1,98 @@
+provider_name: plaid_sandbox
+version: 1
+source_modes:
+  - reference
+  - batch
+notes:
+  - Plaid sandbox is recommended for initial banking/account/transaction integration.
+  - This mapping assumes transaction-sync style transaction payloads and account payloads.
+mappings:
+  - canonical_entity: accounts
+    source_object: plaid.accounts
+    target_mode: reference
+    fields:
+      - source_field: account_id
+        target_field: account_id
+        transform: direct
+        required: true
+      - source_field: owner.customer_id
+        target_field: customer_id
+        transform: direct_or_join_from_item_owner
+        required: true
+      - source_field: type
+        target_field: account_type
+        transform: map_plaid_account_type
+        required: true
+      - source_field: balances.current
+        target_field: current_balance
+        transform: decimal_cast
+        required: true
+      - source_field: balances.iso_currency_code
+        target_field: currency_code
+        transform: fallback_to_usd_if_missing
+        required: true
+      - source_field: created_at
+        target_field: opened_at
+        transform: derive_from_account_created_or_ingestion_time
+        required: true
+      - source_field: status
+        target_field: status
+        transform: map_plaid_account_status_or_default_open
+        required: true
+  - canonical_entity: transactions
+    source_object: plaid.transactions
+    target_mode: batch
+    fields:
+      - source_field: transaction_id
+        target_field: transaction_id
+        transform: direct
+        required: true
+      - source_field: account_id
+        target_field: account_id
+        transform: direct
+        required: true
+      - source_field: owner.customer_id
+        target_field: customer_id
+        transform: join_from_account_map
+        required: true
+      - source_field: personal_finance_category.primary
+        target_field: transaction_type
+        transform: map_plaid_category_to_platform_type
+        required: true
+      - source_field: amount
+        target_field: transaction_amount
+        transform: absolute_decimal_cast
+        required: true
+      - source_field: iso_currency_code
+        target_field: currency_code
+        transform: fallback_to_usd_if_missing
+        required: true
+      - source_field: pending
+        target_field: transaction_status
+        transform: boolean_to_pending_posted
+        required: true
+      - source_field: authorized_datetime
+        target_field: event_timestamp
+        transform: fallback_to_date_midnight_utc
+        required: true
+      - source_field: ingestion_clock
+        target_field: processing_timestamp
+        transform: set_to_ingestion_time
+        required: true
+      - source_field: merchant_name
+        target_field: merchant_category
+        transform: fallback_to_personal_finance_category_primary
+        required: true
+      - source_field: location.country
+        target_field: country_code
+        transform: fallback_to_account_country_or_us
+        required: true
+      - source_field: risk_engine.score
+        target_field: risk_score
+        transform: derive_default_risk_score
+        required: true
+metadata:
+  source_system: plaid
+  schema_version: 1
+  mapping_version: 1
+

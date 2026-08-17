@@ -1,0 +1,54 @@
+{
+  "suite_name": "accounts_bronze",
+  "expectations": [
+    {
+      "expectation_type": "ExpectTableColumnsToMatchSet",
+      "kwargs": {
+        "column_set": [
+          "account_id",
+          "customer_id",
+          "account_type",
+          "currency_code",
+          "current_balance",
+          "opened_at",
+          "status"
+        ]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToNotBeNull",
+      "kwargs": {
+        "column": "account_id",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeUnique",
+      "kwargs": {
+        "column": "account_id",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "account_type",
+        "value_set": ["CHECKING", "SAVINGS", "BROKERAGE"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "status",
+        "value_set": ["OPEN", "SUSPENDED", "CLOSED"]
+      }
+    }
+  ]
+}

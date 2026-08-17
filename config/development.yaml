@@ -1,0 +1,29 @@
+app:
+  env: development
+  log_level: INFO
+
+generation:
+  seed: 20260815
+  customers: 25
+  accounts_per_customer:
+    min: 1
+    max: 3
+  transactions: 120
+  payments: 60
+  trades: 40
+  securities: 12
+  daily_balances_days: 7
+  stream_events: 90
+  late_event_ratio: 0.08
+  duplicate_ratio: 0.06
+  invalid_ratio: 0.12
+  malformed_count: 5
+  base_currency: USD
+  output_formats:
+    batch: ["csv", "json"]
+    streaming: ["jsonl"]
+
+paths:
+  batch_dir: data/generated/batch
+  streaming_dir: data/generated/streaming
+

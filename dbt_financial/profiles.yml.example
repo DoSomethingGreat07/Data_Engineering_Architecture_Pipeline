@@ -1,0 +1,27 @@
+dbt_financial:
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    dev:
+      type: athena
+      work_group: "{{ env_var('ATHENA_WORKGROUP', 'primary') }}"
+      s3_staging_dir: "{{ env_var('ATHENA_STAGING_DIR', 's3://fdp-batch-only-nikhiljuluri-20260816/athena/results/') }}"
+      s3_data_dir: "{{ env_var('ATHENA_DBT_DATA_DIR', 's3://fdp-batch-only-nikhiljuluri-20260816/dbt/') }}"
+      s3_data_naming: schema_table_unique
+      region_name: "{{ env_var('AWS_REGION', 'us-east-1') }}"
+      database: "{{ env_var('ATHENA_CATALOG', 'awsdatacatalog') }}"
+      schema: "{{ env_var('ATHENA_TARGET_SCHEMA', 'fdp_dev_batch_analytics') }}"
+      aws_profile_name: "{{ env_var('AWS_PROFILE', 'default') }}"
+      threads: 4
+      num_retries: 3
+    streaming:
+      type: athena
+      work_group: "{{ env_var('STREAMING_ATHENA_WORKGROUP', env_var('ATHENA_WORKGROUP', 'primary')) }}"
+      s3_staging_dir: "{{ env_var('STREAMING_ATHENA_STAGING_DIR', 's3://fdp-streaming-only-change-me/athena/results/') }}"
+      s3_data_dir: "{{ env_var('STREAMING_ATHENA_DBT_DATA_DIR', 's3://fdp-streaming-only-change-me/dbt/') }}"
+      s3_data_naming: schema_table_unique
+      region_name: "{{ env_var('AWS_REGION', 'us-east-1') }}"
+      database: "{{ env_var('ATHENA_CATALOG', 'awsdatacatalog') }}"
+      schema: "{{ env_var('STREAMING_ATHENA_TARGET_SCHEMA', 'fdp_dev_streaming_analytics') }}"
+      aws_profile_name: "{{ env_var('AWS_PROFILE', 'default') }}"
+      threads: 4
+      num_retries: 3

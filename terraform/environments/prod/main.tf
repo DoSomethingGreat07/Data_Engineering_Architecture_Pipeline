@@ -1,0 +1,34 @@
+module "platform" {
+  source = "../dev"
+
+  project_name         = var.project_name
+  environment          = var.environment
+  owner                = var.owner
+  cost_center          = var.cost_center
+  additional_tags      = var.additional_tags
+  aws_region           = var.aws_region
+  aws_profile          = var.aws_profile
+  data_lake_bucket_name = var.data_lake_bucket_name
+  kms_alias_name       = var.kms_alias_name
+  kms_deletion_window_days = var.kms_deletion_window_days
+  kinesis_stream_name  = var.kinesis_stream_name
+  kinesis_shard_count  = var.kinesis_shard_count
+  kinesis_retention_period_hours = var.kinesis_retention_period_hours
+  kinesis_stream_mode  = var.kinesis_stream_mode
+  glue_database_name   = var.glue_database_name
+  log_retention_days   = var.log_retention_days
+  alarm_actions        = var.alarm_actions
+  custom_metric_namespace = var.custom_metric_namespace
+  custom_metric_filters = var.custom_metric_filters
+  vpc_cidr             = var.vpc_cidr
+  availability_zones   = var.availability_zones
+  private_subnet_cidrs = var.private_subnet_cidrs
+  enable_kinesis_interface_endpoint = var.enable_kinesis_interface_endpoint
+  runtime_service_principals = var.runtime_service_principals
+  runtime_role_arns          = var.runtime_role_arns
+  github_oidc_provider_arn   = var.github_oidc_provider_arn
+  github_repositories        = var.github_repositories
+  s3_noncurrent_version_expiration_days = var.s3_noncurrent_version_expiration_days
+  s3_transition_to_ia_days   = var.s3_transition_to_ia_days
+  s3_glacier_transition_days = var.s3_glacier_transition_days
+}

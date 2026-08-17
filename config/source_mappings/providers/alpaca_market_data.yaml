@@ -1,0 +1,101 @@
+provider_name: alpaca_market_data
+version: 1
+source_modes:
+  - streaming
+  - reference
+notes:
+  - Alpaca is recommended for market-data driven trade/security enrichment and streaming examples.
+mappings:
+  - canonical_entity: securities
+    source_object: alpaca.assets
+    target_mode: reference
+    fields:
+      - source_field: id
+        target_field: security_id
+        transform: direct
+        required: true
+      - source_field: symbol
+        target_field: ticker
+        transform: direct
+        required: true
+      - source_field: name
+        target_field: security_name
+        transform: direct
+        required: true
+      - source_field: class
+        target_field: security_type
+        transform: map_asset_class
+        required: true
+      - source_field: exchange
+        target_field: exchange_code
+        transform: direct
+        required: true
+      - source_field: currency
+        target_field: currency_code
+        transform: fallback_to_usd_if_missing
+        required: true
+  - canonical_entity: trades
+    source_object: alpaca.trades
+    target_mode: streaming
+    fields:
+      - source_field: id
+        target_field: trade_id
+        transform: direct
+        required: true
+      - source_field: account_context.account_id
+        target_field: account_id
+        transform: injected_from_broker_context
+        required: true
+      - source_field: account_context.customer_id
+        target_field: customer_id
+        transform: injected_from_broker_context
+        required: true
+      - source_field: symbol
+        target_field: security_id
+        transform: resolve_symbol_to_security_id
+        required: true
+      - source_field: size
+        target_field: quantity
+        transform: decimal_cast
+        required: true
+      - source_field: price
+        target_field: price
+        transform: decimal_cast
+        required: true
+      - source_field: size,price
+        target_field: transaction_amount
+        transform: multiply_quantity_by_price
+        required: true
+      - source_field: currency
+        target_field: currency_code
+        transform: fallback_to_usd_if_missing
+        required: true
+      - source_field: side
+        target_field: side
+        transform: normalize_buy_sell
+        required: true
+      - source_field: trade_condition
+        target_field: transaction_status
+        transform: map_market_trade_condition_to_posted
+        required: true
+      - source_field: timestamp
+        target_field: event_timestamp
+        transform: direct
+        required: true
+      - source_field: ingestion_clock
+        target_field: processing_timestamp
+        transform: set_to_ingestion_time
+        required: true
+      - source_field: exchange
+        target_field: country_code
+        transform: derive_country_from_exchange
+        required: true
+      - source_field: risk_engine.score
+        target_field: risk_score
+        transform: derive_trade_risk_score
+        required: true
+metadata:
+  source_system: alpaca
+  schema_version: 1
+  mapping_version: 1
+

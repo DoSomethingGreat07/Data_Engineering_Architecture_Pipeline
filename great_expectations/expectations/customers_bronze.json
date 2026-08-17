@@ -1,0 +1,48 @@
+{
+  "suite_name": "customers_bronze",
+  "expectations": [
+    {
+      "expectation_type": "ExpectTableColumnsToMatchSet",
+      "kwargs": {
+        "column_set": [
+          "customer_id",
+          "full_name",
+          "email",
+          "country_code",
+          "risk_score",
+          "created_at"
+        ]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToNotBeNull",
+      "kwargs": {
+        "column": "customer_id",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeUnique",
+      "kwargs": {
+        "column": "customer_id",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToMatchRegex",
+      "kwargs": {
+        "column": "email",
+        "regex": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+        "mostly": 1.0
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "risk_score",
+        "min_value": 0,
+        "max_value": 100
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "suite_name": "streaming_events_microbatch",
+  "expectations": [
+    {
+      "expectation_type": "ExpectTableColumnsToMatchSet",
+      "kwargs": {
+        "column_set": [
+          "event_id",
+          "event_type",
+          "partition_key",
+          "event_timestamp",
+          "processing_timestamp",
+          "currency_code",
+          "transaction_status",
+          "transaction_amount",
+          "risk_score"
+        ]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToNotBeNull",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.99
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeUnique",
+      "kwargs": {
+        "column": "event_id",
+        "mostly": 0.94
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "event_type",
+        "value_set": ["transaction", "payment", "trade"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeInSet",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "transaction_amount",
+        "min_value": 0,
+        "max_value": 10000000
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "risk_score",
+        "min_value": 0,
+        "max_value": 100
+      }
+    }
+  ]
+}
+

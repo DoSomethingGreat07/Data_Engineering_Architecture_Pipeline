@@ -1,0 +1,11 @@
+-- Run in Snowflake
+
+SELECT
+  'FACT_TRANSACTION' AS dataset_name,
+  (SELECT COALESCE(SUM(transaction_amount), 0) FROM FINANCIAL_DATA.RAW.FACT_TRANSACTION_LANDING) AS raw_amount_sum,
+  (SELECT COALESCE(SUM(transaction_amount), 0) FROM FINANCIAL_DATA.STAGING.FACT_TRANSACTION) AS staging_amount_sum,
+  ABS(
+    (SELECT COALESCE(SUM(transaction_amount), 0) FROM FINANCIAL_DATA.RAW.FACT_TRANSACTION_LANDING) -
+    (SELECT COALESCE(SUM(transaction_amount), 0) FROM FINANCIAL_DATA.STAGING.FACT_TRANSACTION)
+  ) AS amount_difference;
+

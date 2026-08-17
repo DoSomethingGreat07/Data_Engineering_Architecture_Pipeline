@@ -1,0 +1,38 @@
+{
+  "name": "financial-data-platform-streaming",
+  "job_clusters": [
+    {
+      "job_cluster_key": "streaming-job-cluster",
+      "new_cluster": {
+        "spark_version": "15.4.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 2,
+        "autotermination_minutes": 15
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "task_key": "financial-streaming-pipeline",
+      "job_cluster_key": "streaming-job-cluster",
+      "spark_python_task": {
+        "python_file": "dbfs:/Workspace/Repos/financial-data-platform/databricks/streaming/financial_streaming_pipeline.py",
+        "parameters": [
+          "--stream-name",
+          "<stream-name>",
+          "--aws-region",
+          "us-east-1",
+          "--silver-root",
+          "s3://<bucket>/streaming/silver",
+          "--gold-root",
+          "s3://<bucket>/streaming/gold",
+          "--rejected-root",
+          "s3://<bucket>/streaming/rejected",
+          "--checkpoint-root",
+          "s3://<bucket>/streaming/checkpoints"
+        ]
+      }
+    }
+  ]
+}
+

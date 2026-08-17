@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_stream_trades
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: trade_id
+        tests: [not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: security_id
+        tests: [not_null]
+      - name: side
+        tests:
+          - accepted_values:
+              values: ['BUY', 'SELL']
+      - name: currency_code
+        tests:
+          - accepted_values:
+              values: ['USD']
+      - name: transaction_amount
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0

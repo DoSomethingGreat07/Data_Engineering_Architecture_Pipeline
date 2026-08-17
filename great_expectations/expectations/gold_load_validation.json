@@ -1,0 +1,53 @@
+{
+  "suite_name": "gold_load_validation",
+  "expectations": [
+    {
+      "expectation_type": "ExpectTableColumnsToMatchSet",
+      "kwargs": {
+        "column_set": [
+          "source_row_count",
+          "target_row_count",
+          "row_count_difference",
+          "debit_total",
+          "credit_total",
+          "debit_credit_difference",
+          "duplicate_rate",
+          "rejected_rate"
+        ]
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "row_count_difference",
+        "min_value": 0,
+        "max_value": { "$PARAMETER": "max_row_count_difference" }
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "debit_credit_difference",
+        "min_value": 0,
+        "max_value": { "$PARAMETER": "max_debit_credit_difference" }
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "duplicate_rate",
+        "min_value": 0,
+        "max_value": { "$PARAMETER": "max_duplicate_rate" }
+      }
+    },
+    {
+      "expectation_type": "ExpectColumnValuesToBeBetween",
+      "kwargs": {
+        "column": "rejected_rate",
+        "min_value": 0,
+        "max_value": { "$PARAMETER": "max_rejected_rate" }
+      }
+    }
+  ]
+}
+

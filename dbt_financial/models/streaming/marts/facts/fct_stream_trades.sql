@@ -1,0 +1,21 @@
+select
+  event_id,
+  trade_id,
+  account_id,
+  customer_id,
+  security_id,
+  quantity,
+  price,
+  transaction_amount,
+  currency_code,
+  side,
+  transaction_status,
+  event_timestamp,
+  processing_timestamp,
+  country_code,
+  risk_score,
+  ingestion_timestamp,
+  cast(event_timestamp as date) as trade_date,
+  date_trunc('minute', event_timestamp) as trade_minute,
+  processing_date
+from {{ ref('stg_stream_trades') }}

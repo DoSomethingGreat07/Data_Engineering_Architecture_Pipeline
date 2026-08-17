@@ -1,0 +1,90 @@
+{
+  "expectations": [
+    {
+      "id": "05b9dffd-ee6d-4fe8-ab9c-3cb65e1e184c",
+      "kwargs": {
+        "column_set": [
+          "account_id",
+          "customer_id",
+          "account_type",
+          "currency_code",
+          "current_balance",
+          "opened_at",
+          "status"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "7bc621f0-9d1a-46c1-9cce-415b587a0cd8",
+      "kwargs": {
+        "column": "account_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "b07bf862-8191-407b-b3e1-445775bfe3f0",
+      "kwargs": {
+        "column": "account_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "5d7da0da-fe47-4d1a-9c68-bef8615d2152",
+      "kwargs": {
+        "column": "account_type",
+        "value_set": [
+          "CHECKING",
+          "SAVINGS",
+          "BROKERAGE"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "c9fe5679-1496-43e0-a515-b6328d33442a",
+      "kwargs": {
+        "column": "currency_code",
+        "value_set": [
+          "USD",
+          "EUR",
+          "GBP",
+          "JPY",
+          "CAD",
+          "AUD"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "d0acb426-de3b-40a5-b95e-8cc71763bbe9",
+      "kwargs": {
+        "column": "status",
+        "value_set": [
+          "OPEN",
+          "SUSPENDED",
+          "CLOSED"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    }
+  ],
+  "id": "5bb381b1-405d-4601-ba8c-337bedc43fa7",
+  "meta": {
+    "great_expectations_version": "1.20.0"
+  },
+  "name": "accounts_bronze",
+  "notes": null
+}

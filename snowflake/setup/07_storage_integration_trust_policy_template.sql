@@ -1,0 +1,36 @@
+-- Run in Snowflake for operator reference only.
+-- This file documents the required two-step process; it is not intended to be executed as-is.
+
+-- Step 1:
+--   Execute:
+--     DESC INTEGRATION FDP_S3_INT;
+--
+-- Step 2:
+--   Capture the Snowflake-generated values:
+--     STORAGE_AWS_IAM_USER_ARN
+--     STORAGE_AWS_EXTERNAL_ID
+--
+-- Step 3:
+--   Update the AWS IAM role trust policy to allow the Snowflake-generated IAM user
+--   and require the returned external ID.
+--
+-- Example AWS trust policy template:
+--
+-- {
+--   "Version": "2012-10-17",
+--   "Statement": [
+--     {
+--       "Effect": "Allow",
+--       "Principal": {
+--         "AWS": "<STORAGE_AWS_IAM_USER_ARN_FROM_DESC_INTEGRATION>"
+--       },
+--       "Action": "sts:AssumeRole",
+--       "Condition": {
+--         "StringEquals": {
+--           "sts:ExternalId": "<STORAGE_AWS_EXTERNAL_ID_FROM_DESC_INTEGRATION>"
+--         }
+--       }
+--     }
+--   ]
+-- }
+

@@ -1,0 +1,17 @@
+{
+  "Namespace": "FinancialDataPlatform",
+  "MetricData": [
+    {
+      "MetricName": "GreatExpectationsFailures",
+      "Value": 1,
+      "Unit": "Count",
+      "Timestamp": "2026-08-15T12:00:00Z",
+      "Dimensions": [
+        { "Name": "Environment", "Value": "dev" },
+        { "Name": "DatasetName", "Value": "transactions" },
+        { "Name": "Stage", "Value": "bronze_post_ingest" }
+      ]
+    }
+  ]
+}
+

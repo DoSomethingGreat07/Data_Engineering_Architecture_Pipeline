@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: lakehouse
+    description: Athena and Glue registered Silver tables sourced from the S3 Delta lakehouse.
+    database: "{{ env_var('ATHENA_CATALOG', 'awsdatacatalog') }}"
+    schema: "{{ env_var('ATHENA_SOURCE_SCHEMA', 'fdp_dev_batch_lakehouse') }}"
+    tables:
+      - name: silver_transactions
+      - name: silver_customers
+      - name: silver_accounts
+      - name: silver_daily_account_balances
+  - name: streaming_lakehouse
+    description: Athena and Glue registered streaming tables sourced from the isolated realtime lakehouse.
+    database: "{{ env_var('ATHENA_CATALOG', 'awsdatacatalog') }}"
+    schema: "{{ env_var('STREAMING_GLUE_DATABASE', 'fdp_dev_streaming_lakehouse') }}"
+    tables:
+      - name: silver_trades
+      - name: gold_fact_trade
+      - name: gold_trade_minute_metrics
+      - name: gold_customer_trade_exposure
+      - name: rejected_stream_events

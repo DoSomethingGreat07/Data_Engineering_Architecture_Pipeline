@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "9da76ae5-60b2-46e9-9b73-86cdf0f0670e",
+      "name": "streaming_trades_silver_asset"
+    },
+    "batch_definition": {
+      "id": "d0b1a495-ac48-4ea3-b034-2bbc64ef9aa1",
+      "name": "streaming_trades_silver_batch"
+    },
+    "datasource": {
+      "id": "75556fae-a131-4a6c-b18f-55718bfe4ddd",
+      "name": "financial_streaming_microbatch"
+    }
+  },
+  "id": "b2c110c0-bfb9-4f49-aa05-8ecd05ba15ee",
+  "name": "trades_bronze_stream_silver",
+  "suite": {
+    "id": "85699316-01a1-4688-b3f0-a11573b0f381",
+    "name": "trades_bronze"
+  }
+}

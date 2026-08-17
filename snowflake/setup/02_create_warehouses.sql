@@ -1,0 +1,16 @@
+-- Run in Snowflake
+
+CREATE WAREHOUSE IF NOT EXISTS FDP_DEV_WH
+  WAREHOUSE_SIZE = 'XSMALL'
+  AUTO_SUSPEND = 60
+  AUTO_RESUME = TRUE
+  INITIALLY_SUSPENDED = TRUE
+  COMMENT = 'Development warehouse for the financial data platform';
+
+CREATE WAREHOUSE IF NOT EXISTS FDP_TRANSFORM_WH
+  WAREHOUSE_SIZE = 'SMALL'
+  AUTO_SUSPEND = 60
+  AUTO_RESUME = TRUE
+  INITIALLY_SUSPENDED = TRUE
+  COMMENT = 'Transformation warehouse for dbt and validation workloads';
+
