@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import json
 from collections.abc import AsyncIterator
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import requests
 
@@ -22,10 +22,10 @@ class WebSocketProtocol(Protocol):
 
 
 class ConnectContextProtocol(Protocol):
-    async def __aenter__(self) -> WebSocketProtocol:
+    async def __aenter__(self) -> Any:
         """Enter async connection context."""
 
-    async def __aexit__(self, exc_type: object, exc: object, tb: object) -> None:
+    async def __aexit__(self, exc_type: object, exc: object, tb: object) -> Any:
         """Exit async connection context."""
 
 
@@ -91,7 +91,7 @@ class AlpacaStreamingClient:
     def _connect(self) -> ConnectContextProtocol:
         import websockets  # type: ignore[import-not-found]
 
-        return websockets.connect(self.config.stream_url)  # type: ignore[no-any-return]
+        return cast(ConnectContextProtocol, websockets.connect(self.config.stream_url))
 
     def fetch_latest_trade_messages(
         self,

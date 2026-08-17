@@ -5,7 +5,7 @@ import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Protocol
+from typing import Any, Protocol, cast
 
 from src.stream_consumer.models import (
     ConsumedBatchPaths,
@@ -22,6 +22,12 @@ class KinesisClientProtocol(Protocol):
         ...
 
     def get_records(self, **kwargs: object) -> dict[str, object]:
+        ...
+
+
+class KinesisShardProtocol(Protocol):
+    @property
+    def ShardId(self) -> str:
         ...
 
 
@@ -118,7 +124,7 @@ class KinesisStreamConsumerService:
 
     def _list_shards(self, stream_name: str) -> list[str]:
         response = self._client.list_shards(StreamName=stream_name)
-        shards = response.get("Shards", [])
+        shards = cast(list[dict[str, Any]], response.get("Shards", []))
         return [str(shard["ShardId"]) for shard in shards if "ShardId" in shard]
 
     def _consume_shard(
@@ -147,7 +153,7 @@ class KinesisStreamConsumerService:
                 Limit=min(remaining - len(collected), 1000),
             )
             iterator = response.get("NextShardIterator")
-            raw_records = response.get("Records", [])
+            raw_records = cast(list[dict[str, Any]], response.get("Records", []))
             if not raw_records:
                 empty_polls += 1
                 time.sleep(request.poll_interval_seconds)
@@ -171,8 +177,10 @@ class KinesisStreamConsumerService:
                         parse_failed=parse_failed,
                         approximate_arrival_timestamp=(
                             arrival_timestamp.astimezone(UTC).isoformat()
-                            if hasattr(arrival_timestamp, "astimezone")
-                            else str(arrival_timestamp) if arrival_timestamp is not None else None
+                            if isinstance(arrival_timestamp, datetime)
+                            else str(arrival_timestamp)
+                            if arrival_timestamp is not None
+                            else None
                         ),
                     )
                 )

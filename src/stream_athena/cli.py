@@ -3,8 +3,20 @@ from __future__ import annotations
 import argparse
 import json
 import time
+from typing import Any, Protocol
 
 import boto3
+
+
+class AthenaClientProtocol(Protocol):
+    def start_query_execution(self, **kwargs: Any) -> dict[str, Any]:
+        ...
+
+    def get_query_execution(self, **kwargs: Any) -> dict[str, Any]:
+        ...
+
+    def get_query_results(self, **kwargs: Any) -> dict[str, Any]:
+        ...
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -92,7 +104,7 @@ def main() -> int:
 
 def execute_athena_query(
     *,
-    athena: object,
+    athena: AthenaClientProtocol,
     query: str,
     database_name: str,
     workgroup: str,
