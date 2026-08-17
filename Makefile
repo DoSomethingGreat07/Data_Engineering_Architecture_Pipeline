@@ -1,10 +1,11 @@
 SHELL := /bin/bash
 PYTHON ?= python3.11
 VENV ?= .venv
-PIP := $(VENV)/bin/pip
-PYTEST := $(VENV)/bin/pytest
-RUFF := $(VENV)/bin/ruff
-MYPY := $(VENV)/bin/mypy
+PYTHON_BIN := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,$(PYTHON))
+PIP := $(if $(wildcard $(VENV)/bin/pip),$(VENV)/bin/pip,pip)
+PYTEST := $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
+RUFF := $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
+MYPY := $(if $(wildcard $(VENV)/bin/mypy),$(VENV)/bin/mypy,mypy)
 
 .PHONY: setup lint format type-check test generate-data validate-all clean airflow-up airflow-down dbt-compile terraform-validate
 
@@ -26,7 +27,7 @@ test:
 	$(PYTEST)
 
 generate-data:
-	$(VENV)/bin/python -m src.generators.cli --config config/development.yaml --output-dir data/generated
+	$(PYTHON_BIN) -m src.generators.cli --config config/development.yaml --output-dir data/generated
 
 ingest-sample-batch:
 	@echo "Run from /Users/nikhiljuluri/Desktop/eureka/Production_Pipeline after setting a real bucket and AWS access:"
@@ -65,7 +66,7 @@ alpaca-stream-capture:
 	@echo ".venv/bin/python -m src.sources.alpaca_streaming.cli --symbols AAPL,MSFT --max-messages 25 --output-dir data/external_sources"
 
 gx-bootstrap:
-	$(VENV)/bin/python great_expectations/scripts/bootstrap_context.py
+	$(PYTHON_BIN) great_expectations/scripts/bootstrap_context.py
 
 gx-validate-batch:
 	@echo "Run from /Users/nikhiljuluri/Desktop/eureka/Production_Pipeline:"
