@@ -6,4 +6,4 @@ def test_batch_task_count() -> None:
 
 
 def test_streaming_task_count() -> None:
-    assert len(streaming_task_specs()) == 8
+    assert len(streaming_task_specs()) == 11
